@@ -1,0 +1,234 @@
+.signin-container {
+    display: flex;
+    height: 100vh;
+    background: linear-gradient(to right, #E0F7FA 30%, #fff 30%);
+}
+
+.signin-left {
+    flex: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.login-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.signin-info {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.signin-right {
+    flex: 7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+
+.signin-box {
+    width: 240px;
+    padding: 30px 25px 5px 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-right: -83px;
+}
+
+.signin-box h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.form-group-inline-a {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.form-group-inline-a label {
+    position: absolute;
+    left: 10px;
+    top: -10px;
+    background: white;
+    padding: 0 5px;
+    font-size: 0.65rem;
+    color: black;
+    font-weight: 400;
+}
+
+.form-group-inline-a input {
+    width: 100%;
+    padding: 12px 8px 8px 8px;
+    font-size: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: -4px;
+    margin-bottom: 13px;
+}
+.form-group-inline-a input::placeholder {
+    color: #aaaaaa8c;
+}
+
+.form-group-inline-b {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.form-group-inline-b label {
+    position: absolute;
+    left: 10px;
+    top: -10px;
+    background: white;
+    padding: 0 5px;
+    font-size: 0.65rem;
+    color: black;
+    font-weight: 400;
+}
+
+.form-group-inline-b input {
+    width: 100%;
+    padding: 12px 8px 8px 8px; 
+    font-size: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: -2px;
+    box-sizing: border-box; 
+}
+.form-group-inline-b input::placeholder {
+    color: #aaaaaa8c;
+}
+
+.password-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    font-size: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #676666;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.8rem;
+    color: white;
+    background-color: #04b7b1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 9px;
+}
+
+button:hover {
+    background-color: #10928e;
+}
+
+p {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: black;
+}
+
+a {
+    color: #00796B;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.logo {
+    height: 55px;
+    width: 55px;
+    display: block;
+    margin: 0 auto 20px auto;
+    margin-left: 47px;
+    margin-top: -463px;
+}
+
+.text {
+    margin-left: 35px;
+    margin-top: 25px;
+    font-size: 0.7rem;
+    color: #676666;
+}
+
+.pa {
+    margin-top: 10px;
+    font-size: 0.6rem;
+    color: #ffffff;
+    margin-left: -70px;
+}
+
+.pb {
+    margin-top: 10px;
+    font-size: 0.6rem;
+    color: #ffffff;
+    margin-left: -102px;
+}
+
+.pc {
+    font-size: 0.6rem;
+    color: #ffffff;
+    margin-top: 430px;
+    margin-left: -65px;
+}
+
+.pd {
+    font-size: 0.6rem;
+    margin-bottom: -565px;
+    margin-left: -130px;
+    margin-right: 345px;
+    color: #676666;
+}
+
+.pe {
+    font-size: 0.6rem;
+    margin-bottom: 548px;
+    margin-left: 0px;
+    margin-right: -541px;
+    color: #676666;
+}
+
+h5 {
+    display: block;
+    font-size: 0.70em;
+    margin-block-start: 1.67em;
+    margin-block-end: 1.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+    margin-top: -1px;
+    color: #676666;
+}
+
+h3 {
+    display: block;
+    font-size: 1.1em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+    margin-top: -10px;
+    margin-bottom: 7px;
+}

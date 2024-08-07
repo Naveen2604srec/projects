@@ -1,0 +1,200 @@
+.signup-container {
+  display: flex;
+  height: 100vh;
+  background: linear-gradient(to right, #E0F7FA 30%, #fff 30%);
+}
+
+.signup-left {
+  flex: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.login-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.signup-info {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.signup-right {
+  flex: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.signup-box {
+  width: 240px;
+  padding: 30px 10px 5px 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-right: -63px;
+}
+
+.signup-box h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.form-group-inline-a1 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.form-group-inline-a1 label {
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  background: white;
+  padding: 0 5px;
+  font-size: 0.65rem;
+  color: black;
+  font-weight: 400;
+}
+
+.form-group-inline-a1 input {
+  width: 85%;
+  padding: 12px 8px 8px 8px;
+  font-size: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: -4px;
+  margin-bottom: 13px;
+}
+
+.form-group-inline-a1 input::placeholder {
+  color: #aaaaaa8c;
+}
+
+.form-group-inline-b1 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.form-group-inline-b1 label {
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  background: white;
+  padding: 0 5px;
+  font-size: 0.65rem;
+  color: black;
+  font-weight: 400;
+}
+
+.form-group-inline-b1 input {
+  width: 92%;
+  padding: 12px 8px 8px 8px; 
+  font-size: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: -2px;
+  box-sizing: border-box; 
+}
+
+.form-group-inline-b1 input::placeholder {
+  color: #aaaaaa8c;
+}
+
+.button-a {
+  width: 92%;
+  padding: 10px;
+  font-size: 0.8rem;
+  color: white;
+  background-color: #04b7b1;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 9px;
+}
+
+.button-a:hover {
+  background-color: #10928e;
+}
+
+p {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: black;
+}
+
+a {
+  color: #00796B;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.logo {
+  height: 55px;
+  width: 55px;
+  display: block;
+  margin: 0 auto 20px auto;
+  margin-left: 47px;
+  margin-top: -463px;
+}
+
+.text-a {
+  margin-left: 45px;
+  margin-top: 25px;
+  font-size: 0.7rem;
+  color: #676666;
+}
+
+.pa1 {
+  margin-top: 10px;
+  font-size: 0.6rem;
+  color: #ffffff;
+  margin-left: -70px;
+}
+
+.pb1 {
+  margin-top: 10px;
+  font-size: 0.6rem;
+  color: #ffffff;
+  margin-left: -102px;
+}
+
+.pc1 {
+  font-size: 0.6rem;
+  color: #ffffff;
+  margin-top: 430px;
+  margin-left: -65px;
+}
+
+.pd1 {
+  font-size: 0.6rem;
+  margin-bottom: -565px;
+  margin-left: -130px;
+  margin-right: 345px;
+  color: #676666;
+}
+
+.pe1 {
+  font-size: 0.6rem;
+  margin-bottom: 548px;
+  margin-left: 0px;
+  margin-right: -549px;
+  color: #676666;
+}
