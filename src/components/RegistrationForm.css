@@ -1,0 +1,193 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+.form-center {
+  max-width: 600px;
+  margin: 0 auto;
+  border: 5px solid #17a2b8;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-header-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.floating-container {
+  position: relative;
+  margin-top: 20px;
+}
+
+.static-prefix {
+  position: absolute;
+  top: 7px;
+  left: 3px;
+  color: #6c757d92;
+  font-size: 16px;
+  transition: 0.2s ease all;
+  pointer-events: none;
+}
+
+.with-prefix {
+  padding-left: 48px;
+}
+
+.floating-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.floating-label {
+  position: absolute;
+  top: 7px;
+  left: 10px;
+  transition: 0.2s ease all;
+  pointer-events: none;
+  color: #6c757d;
+  font-size: 14px;
+  
+}
+
+.floating-label.focused {
+  top: -10px;
+  left: 0;
+  font-size: 12px;
+  color: #17a2b8;
+}
+
+.form-control::placeholder {
+  color: transparent;
+}
+
+.floating-label.focused,
+.form-control:focus + .floating-label,
+.form-control:not(:placeholder-shown) + .floating-label {
+top: -15px;
+left: 5px;
+font-size: 12px;
+color: #17a2b8;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: #17a2b8;
+}
+
+.no-spin::-webkit-outer-spin-button,
+.no-spin::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-spin {
+  -moz-appearance: textfield; 
+  appearance: none; 
+}
+
+.floating-select:focus ~ .floating-label,
+.floating-select.focused ~ .floating-label {
+  top: -0.6rem;
+  left: 0.75rem;
+  font-size: 0.75rem;
+  color: #111616;
+  background: white;
+  padding: 0 0.25rem;
+}
+
+.floating-select {
+  width: 100%;
+  padding: 0.75rem;
+  padding-top: 0.40rem;
+  padding-bottom: 0.375rem;
+  border: 1px solid #6c757d;
+  border-radius: 0.25rem;
+  background: white;
+}
+
+.floating-select:focus {
+  border-color: #111616;
+  box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+}
+
+input#formBasicCheckbox {
+  border: 2px solid black;
+}
+
+.justify-text {
+  text-align: justify;
+}
+.visible {
+  text-align: justify;
+}
+.justify-text:after {
+  content: '';
+  display: inline-block;
+  width: 100%;
+}
+
+.imagesall {
+  margin-top: 1rem;
+}
+.emedlogo {
+  margin: auto;
+  text-align: center;
+}
+
+.emedlogo p {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #3f3e3e;
+}
+span.alreadypat {
+  font-size: 17px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.appstoreandplaystore img {
+  width: 200px;
+  height: max-content;
+}
+.appstoreandplaystore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 789px){
+.gender-radio label {
+  font-size: 14px;
+}
+.form-check label {
+  font-size: 13px;
+}
+.appstoreandplaystore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.appstoreandplaystore img {
+  width: 120px;
+  
+}
+
+.appstoreandplaystore {
+  flex-wrap: wrap;
+}
+a.playstore img {
+width: 123px;
+}
+
+}

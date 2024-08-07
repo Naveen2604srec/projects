@@ -1,13 +1,22 @@
 .App {
-    text-align: center;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
-  .logo {
-    width: 100px; 
-    height: 100px;
-    background-size: contain; 
-    background-repeat: no-repeat;
-  }
+  text-align: center;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 20px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: blue;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
