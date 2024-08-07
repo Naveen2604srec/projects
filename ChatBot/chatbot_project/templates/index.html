@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: rgb(180, 229, 247);
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            background: #10928e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            height: 450px;
+            display: none;
+            position: absolute;
+            bottom: 60px;
+            right: 15px;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            transform-origin: bottom right;
+            animation: slide-up 0.3s ease-in-out forwards;
+        }
+        @keyframes slide-up {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .chat-container.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toggle-button {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            bottom: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .toggle-button i {
+            font-size: 20px;
+        }
+        .toggle-button .fas {
+            transition: transform 0.3s ease-in-out;
+        }
+        .toggle-button.active .fas {
+            transform: rotate(90deg);
+        }
+        .toggle-button.active .fa-comments {
+            display: none;
+        }
+        .toggle-button.active .fa-times {
+            display: block;
+        }
+        .toggle-button.active:hover {
+            background-color: #dc3545; 
+        }
+        .toggle-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+        .toggle-button .fa-times {
+            display: none;
+        }
+        .chat-container h1 {
+            font-size: 24px;
+            margin-top: 6px;
+            margin-bottom: -2px;
+            color: #fdfeff;
+        }
+        .input-container textarea#message {
+            flex: 1;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            outline: none;
+            font-size: 14px;
+            margin-top: -4px;
+            margin-right: -10px;
+        }
+        .chat-box {
+            border: none;
+            background-color: #aee8fcc6;
+            padding: 16px;
+            border-radius: 8px;
+            height: 337px;
+            overflow-y: auto;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .chat-box div {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .chat-bubble {
+            padding: 10px;
+            border-radius: 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .user-message {
+    justify-content: flex-end; /* Align user messages to the right */
+    text-align: left;
+    display: flex;
+    align-items: center;
+    word-break: break-word; /* Allow the text to wrap within the chat bubble */
+    margin-bottom: 12px; /* Ensure there is space between messages */
+}
+
+.user-message .chat-bubble {
+    background-color: #dcf8c6;
+    margin-right: 10px; /* Add some space between the message and the edge */
+    border-radius: 20px;
+    padding: 10px;
+    max-width: 70%;
+    word-wrap: break-word; /* Allow the text to wrap within the chat bubble */
+}
+
+.bot-message {
+    justify-content: flex-start;
+    text-align: left;
+    color: #555;
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px; /* Ensure there is space between messages */
+}
+
+.bot-message .chat-bubble {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px;
+    max-width: 80%;
+    word-wrap: break-word; /* Allow the text to wrap within the chat bubble */
+    margin-left: 5px; /* Add some space between the message and the edge */
+}
+
+        .fa-microphone:before {
+    content: "\f130";
+    margin-right: -4px;
+    margin-left: 1px;
+}
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-top: 12px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            transition: all 0.3s ease-in-out;
+        }
+        .input-button {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            color: #007bff;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: color 0.3s ease-in-out, transform 0.1s ease-in-out;
+            visibility: hidden;
+        }
+        .input-button i {
+            font-size: 20px;
+            color: #05080b;
+        }
+        .input-button:hover {
+            color: #0056b3;
+            transform: scale(1.1);
+        }
+        .user-info {
+            font-size: 8px; 
+            color: #888;
+            margin-left: 5px;
+        }
+        .attachment-button {
+            width: max-content;
+            margin-left: 10px;
+            height: 40px;
+            background: transparent;
+            color: #020406;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .attachment-button:hover {
+            color: #030e19;
+        }
+        .attachment-options {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            width: 150px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            right: 0;
+            bottom: 50px; /* Adjusted to position above attachment button */
+        }
+        .attachment-options.show {
+            display: block;
+        }
+        .attachment-options ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .attachment-options li {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .attachment-options li:hover {
+            background-color: #f0f0f0;
+        }
+        .capture-button,
+        .delete-button,
+        .continue-button {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px; /* Adjust font size as needed */
+        }
+
+        .cancel-button {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 9px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            background: red;
+            color: white;
+            margin-left: 74px;
+        margin-bottom: 59px;
+        }
+        
+        video {
+            margin-top: -17px;
+        }
+        .capture-button {
+            background-color: #007bff;
+            color: white;
+            margin-bottom: 59px;
+            margin-left: -87px;
+            padding: 9px 22px;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            color: white;    
+            width: 115px;
+            margin-left: 62px;
+            margin-bottom: 60px;
+        }
+
+        .continue-button {
+            background-color: #28a745;
+            width: 113px;
+            color: white;
+            margin-left: -78px;
+            margin-bottom: 60px;
+        }
+
+        
+        .copy-icon {
+            position: absolute;
+            bottom: -25px; /* Adjust as necessary */
+            right: 10px; /* Adjust as necessary */
+            color: #00070f;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .copy-icon:hover {
+            color: #0056b3;
+        }
+
+        .bot-message .copy-icon {
+            position: sticky;
+            top: 90%;
+            right: 253px; 
+            transform: translateY(-50%);
+            color: #007bff;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .bot-message .copy-icon:hover {
+            color: #0056b3;
+        }
+
+        .record-controls {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .record-controls button {
+        background-color: #05080b;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 9px 28px;
+    margin-left: 0px;
+    margin-top: -129px;
+    margin-right: 123px;
+    margin-bottom: 58px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .record-controls button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    .record-controls .pause-button {
+        background-color: #ffc107;
+    }
+
+    .record-controls .stop-button {
+        background-color: #dc3545;
+    }
+
+    .record-controls .delete-button {
+        background-color: #6c757d;
+    }
+
+        
+
+
+    </style>
+</head>
+<body>
+    <button class="toggle-button" onclick="toggleChat()">
+        <i class="fas fa-comments"></i>
+        <i class="fas fa-times"></i>
+    </button>
+    <div class="chat-container inactive" id="chat-container">
+        <h1>Chatbot</h1>
+        <div class="chat-box" id="chat-box"></div>
+        <div class="input-container">
+            <textarea id="message" placeholder="Type a message..." oninput="toggleSendButton()" onkeydown="handleKeyPress(event)"></textarea>
+            <button class="attachment-button" onclick="toggleMic()"><i class="fas fa-microphone"></i></button>
+
+            <div class="attachment-button" onclick="toggleAttachmentOptions()">
+                <i class="fas fa-paperclip"></i>
+                <div class="attachment-options" id="attachment-options">
+                    <ul>
+                        <li onclick="handleAttachment('camera')"><i class="fas fa-camera"></i> Camera</li>
+                        <li onclick="handleAttachment('document')"><i class="fas fa-file"></i> Document</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="input-button" id="send-button" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div class="record-controls" id="record-controls">
+            <button class="pause-button" onclick="pauseRecording()">Pause</button>
+            <button class="stop-button" onclick="stopRecording()">Stop</button>
+            <button class="delete-button" onclick="deleteRecording()">Delete</button>
+        </div>
+        
+    </div>
+    
+    <script>
+
+        
+
+function toggleChat() {
+            const chatContainer = document.getElementById('chat-container');
+            const toggleButton = document.querySelector('.toggle-button');
+            chatContainer.classList.toggle('active');
+            chatContainer.classList.toggle('inactive');
+            toggleButton.classList.toggle('active');
+
+            // Send greeting message when chatbox is opened
+            if (chatContainer.classList.contains('active')) {
+                sendGreeting();
+            }
+        }
+
+        function sendGreeting() {
+            const chatBox = document.getElementById('chat-box');
+            const botMessageDiv = document.createElement('div');
+            botMessageDiv.className = 'bot-message';
+            botMessageDiv.innerHTML = `
+                <i class="fas fa-robot"></i>
+                <div class="chat-bubble">Hello! How can I assist you today?</div>`;
+            chatBox.appendChild(botMessageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function toggleSendButton() {
+            const message = document.getElementById('message').value;
+            const sendButton = document.getElementById('send-button');
+            sendButton.style.visibility = message.trim() ? 'visible' : 'hidden';
+        }
+
+        
+
+        function toggleAttachmentOptions() {
+            const attachmentOptions = document.getElementById('attachment-options');
+            attachmentOptions.classList.toggle('show');
+        }
+
+        function handleAttachment(type) {
+            switch (type) {
+                case 'camera':
+                    openCamera();
+                    onabort(handleAttachment)
+                    break;
+                case 'document':
+                    handleDocumentUpload();
+                    onabort(handleAttachment)
+                    break;
+                default:
+                    break;
+            }
+            const attachmentOptions = document.getElementById('attachment-options');
+            attachmentOptions.classList.remove('show');
+        }
+
+        function openCamera() {
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream) {
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            video.autoplay = true;
+            video.style.width = '100%';
+            video.style.height = 'auto';
+
+            const chatBox = document.getElementById('chat-box');
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'user-message';
+            userMessageDiv.innerHTML = `
+                <div class="chat-bubble">Opening camera...</div>
+                <i class="fas fa-user"></i>`;
+            chatBox.appendChild(userMessageDiv);
+
+            const cameraViewDiv = document.createElement('div');
+            cameraViewDiv.className = 'bot-message';
+            cameraViewDiv.appendChild(video);
+
+            const actionButtonsDiv = document.createElement('div');
+            actionButtonsDiv.className = 'action-buttons';
+
+            const captureButton = document.createElement('button');
+            captureButton.className = 'capture-button';
+            captureButton.textContent = 'Capture';
+            captureButton.onclick = function() {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const context = canvas.getContext('2d');
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                const imageUrl = canvas.toDataURL('image/png');
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.style.maxWidth = '100%';
+                img.style.borderRadius = '8px';
+
+                const capturedImageDiv = document.createElement('div');
+                capturedImageDiv.className = 'user-message';
+                capturedImageDiv.appendChild(img);
+
+                const buttonsDiv = document.createElement('div');
+                buttonsDiv.className = 'image-actions';
+
+                const continueButton = document.createElement('button');
+                continueButton.className = 'continue-button';
+                continueButton.textContent = 'Continue';
+                continueButton.onclick = function() {
+                    buttonsDiv.remove(); // Remove the continue and delete buttons
+                };
+                buttonsDiv.appendChild(continueButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'delete-button';
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = function() {
+                    capturedImageDiv.remove();
+                };
+                buttonsDiv.appendChild(deleteButton);
+
+                capturedImageDiv.appendChild(buttonsDiv);
+
+                chatBox.appendChild(capturedImageDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                stream.getTracks().forEach(track => track.stop());
+                video.remove();
+                actionButtonsDiv.remove();
+
+                // Bot message: Camera closed in chat bubble style
+                setTimeout(function() {
+                    const botMessageDiv = document.createElement('div');
+                    botMessageDiv.className = 'bot-message';
+                    const chatBubbleDiv = document.createElement('div');
+                    chatBubbleDiv.className = 'chat-bubble bot-bubble';
+                    chatBubbleDiv.textContent = 'Camera closed';
+                    botMessageDiv.appendChild(chatBubbleDiv);
+                    chatBox.appendChild(botMessageDiv);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 500); // Delay for 500 milliseconds before showing "Camera closed"
+            };
+            actionButtonsDiv.appendChild(captureButton);
+
+            const cancelButton = document.createElement('button');
+            cancelButton.className = 'cancel-button';
+            cancelButton.textContent = 'Cancel';
+            cancelButton.onclick = function() {
+                stream.getTracks().forEach(track => track.stop());
+                video.remove();
+                actionButtonsDiv.remove();
+
+                // Bot message: Camera closed in chat bubble style
+                setTimeout(function() {
+                    const botMessageDiv = document.createElement('div');
+                    botMessageDiv.className = 'bot-message';
+                    const chatBubbleDiv = document.createElement('div');
+                    chatBubbleDiv.className = 'chat-bubble bot-bubble';
+                    chatBubbleDiv.textContent = 'Camera closed';
+                    botMessageDiv.appendChild(chatBubbleDiv);
+                    chatBox.appendChild(botMessageDiv);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 500); // Delay for 500 milliseconds before showing "Camera closed"
+            };
+            actionButtonsDiv.appendChild(cancelButton);
+
+            cameraViewDiv.appendChild(actionButtonsDiv);
+            chatBox.appendChild(cameraViewDiv);
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        })
+        .catch(function(error) {
+            console.error('Error accessing camera:', error);
+            alert('Failed to access camera. Please check your permissions or device compatibility.');
+        });
+}
+
+
+
+
+        function handleDocumentUpload() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf,.doc,.docx';
+
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const chatBox = document.getElementById('chat-box');
+                const userMessageDiv = document.createElement('div');
+                userMessageDiv.className = 'user-message';
+                userMessageDiv.innerHTML = `
+                    <div class="chat-bubble">Selected document: ${file.name}</div>
+                    <i class="fas fa-user"></i>`;
+                chatBox.appendChild(userMessageDiv);
+
+                const fileReader = new FileReader();
+                fileReader.onload = function() {
+                    const fileContent = fileReader.result;
+
+                    const documentLink = document.createElement('a');
+                    documentLink.href = fileContent;
+                    documentLink.textContent = 'Download Document';
+                    documentLink.setAttribute('download', file.name);
+
+                    const documentDiv = document.createElement('div');
+                    documentDiv.className = 'bot-message';
+                    documentDiv.appendChild(documentLink);
+
+                    chatBox.appendChild(documentDiv);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                };
+
+                fileReader.readAsDataURL(file);
+            };
+
+            input.click();
+        }
+
+        function uploadFile() {
+            const fileInput = document.getElementById('file-upload');
+            const file = fileInput.files[0];
+            
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('https://file.io/?expires=1d', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const chatBox = document.getElementById('chat-box');
+                const userMessageDiv = document.createElement('div');
+                userMessageDiv.className = 'user-message';
+                userMessageDiv.innerHTML = `
+                    <div class="chat-bubble">Uploaded file: ${file.name}</div>
+                    <div>Download link: <a href="${data.link}" target="_blank">${file.name}</a></div>
+                    <i class="fas fa-user"></i>`;
+                chatBox.appendChild(userMessageDiv);
+
+                fileInput.value = ''; // Clear the file input
+                toggleAttachmentOptions(); // Close attachment options if open
+                chatBox.scrollTop = chatBox.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Error uploading file:', error);
+                alert('Failed to upload file. Please try again.');
+            });
+        }
+
+        let mediaRecorder;
+let audioChunks = [];
+let audioRecordingDiv;
+
+function toggleMic() {
+    if (mediaRecorder) {
+        if (mediaRecorder.state === "recording") {
+            mediaRecorder.stop();
+        } else if (mediaRecorder.state === "paused") {
+            mediaRecorder.resume();
+        }
+    } else {
+        startRecording();
+    }
+}
+
+function startRecording() {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.start();
+            audioChunks = [];
+            audioRecordingDiv = document.createElement('div');
+            audioRecordingDiv.className = 'user-message';
+            audioRecordingDiv.innerHTML = `
+                <div class="chat-bubble">
+                    <p>Recording...</p>
+                </div>
+                <div class="button-container">
+                    <button class="pause-button" onclick="pauseRecording()"><i class="fas fa-pause"></i></button>
+                    <button class="stop-button" onclick="stopRecording('audio')"><i class="fas fa-stop"></i></button>
+                </div>
+                <i class="fas fa-user"></i>`;
+            const chatBox = document.getElementById('chat-box');
+            chatBox.appendChild(audioRecordingDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            mediaRecorder.ondataavailable = event => {
+                audioChunks.push(event.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                showAudioMessage(audioUrl);
+                audioChunks = []; // Reset audioChunks for next recording
+                mediaRecorder = null; // Reset mediaRecorder for next recording
+            };
+        })
+        .catch(error => {
+            console.error('Error accessing microphone:', error);
+            alert('Failed to access microphone. Please check your permissions or device compatibility.');
+        });
+}
+
+function pauseRecording() {
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.pause();
+        const pauseButton = document.querySelector('.pause-button');
+        if (pauseButton) {
+            pauseButton.textContent = 'Resume';
+        }
+    } else if (mediaRecorder && mediaRecorder.state === "paused") {
+        mediaRecorder.resume();
+        const pauseButton = document.querySelector('.pause-button');
+        if (pauseButton) {
+            pauseButton.textContent = 'Pause';
+        }
+    }
+}
+
+function stopRecording() {
+    if (mediaRecorder && (mediaRecorder.state === "recording" || mediaRecorder.state === "paused")) {
+        mediaRecorder.stop();
+    }
+}
+
+function showAudioMessage(audioUrl) {
+    if (audioRecordingDiv) {
+        audioRecordingDiv.innerHTML = `
+            <div class="chat-bubble">
+                <audio controls>
+                    <source src="${audioUrl}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <i class="fas fa-user"></i>`;
+    }
+}
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const recordingButtons = document.querySelectorAll('.pause-button, .stop-button, .delete-button');
+    recordingButtons.forEach(button => {
+        button.style.display = 'none';
+    });
+});
+
+        function sendMessage() {
+    const message = document.getElementById('message').value;
+    if (message.trim() === '') return;
+
+    const chatBox = document.getElementById('chat-box');
+    const userMessageDiv = document.createElement('div');
+    userMessageDiv.className = 'user-message';
+    userMessageDiv.innerHTML = `
+        <div class="chat-bubble">${message}</div>
+        <i class="fas fa-user"></i>`;
+    chatBox.appendChild(userMessageDiv);
+
+    fetch('/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'message=' + encodeURIComponent(message),
+    })
+    .then(response => response.json())
+    .then(data => {
+        const chatBox = document.getElementById('chat-box');
+        const botMessageDiv = document.createElement('div');
+        botMessageDiv.className = 'bot-message';
+        const botMessage = data.response || '';
+        const fileUrl = data.fileUrl || '';
+        const code = data.code || '';
+        let botContent = `<i class="fas fa-robot"></i>
+            <div class="chat-bubble">${botMessage}`;
+        if (fileUrl) {
+            botContent += `<br><a href="${fileUrl}" download="downloaded_file">Download File</a>`;
+        }
+        if (code) {
+            botContent += `<pre><code>${code}</code></pre>`;
+        }
+        botContent += `</div>
+            <i class="fas fa-copy copy-icon" onclick="copyToClipboard('${botMessage} ${fileUrl} ${code}')"></i>`;
+        botMessageDiv.innerHTML = botContent;
+        chatBox.appendChild(botMessageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+    document.getElementById('message').value = '';
+    toggleSendButton();
+}
+
+function appendMessage(sender, message) {
+    const chatBox = document.getElementById('chat-box');
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message', `${sender}-message`);
+    const bubbleElement = document.createElement('div');
+    bubbleElement.classList.add('chat-bubble');
+    bubbleElement.textContent = message;
+    if (sender === 'bot') {
+        const words = message.split(' ');
+        const lastWord = words.pop(); // Remove and return the last word
+        bubbleElement.innerHTML = words.join(' ') + ' '; // Add all words except the last one
+        bubbleElement.appendChild(document.createTextNode(lastWord));
+
+        const copyIcon = document.createElement('i');
+        copyIcon.classList.add('fas', 'fa-copy', 'copy-icon');
+        copyIcon.setAttribute('onclick', `copyToClipboard('${message}')`);
+        bubbleElement.appendChild(copyIcon);
+    }
+    messageElement.appendChild(bubbleElement);
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Message copied to clipboard!');
+        }
+
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
